@@ -1,16 +1,17 @@
 package com.example.realapp
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.realapp.databinding.FirstCollapseBinding
-import com.example.realapp.databinding.FirstFragmentBinding
 
 class FirstCollapsingFragment : Fragment() {
-
+    //проверка
     private var _binding: FirstCollapseBinding? = null
     private val binding get() = _binding!!
 
@@ -41,36 +42,34 @@ class FirstCollapsingFragment : Fragment() {
         }
 
         binding.arrowButton1.setOnClickListener {
-            toggleVisibility()
+            toggleVisibility(binding.expandableContent1, binding.arrowButton1)
         }
         binding.arrowButton2.setOnClickListener {
-            toggleVisibility2()
+            toggleVisibility(binding.expandableContent2, binding.arrowButton2)
         }
         binding.arrowButton3.setOnClickListener {
-            toggleVisibility3()
+            toggleVisibility(binding.expandableContent3, binding.arrowButton3)
         }
     }
 
-    private fun toggleVisibility() {
-        val isVisible = binding.expandableContent1.visibility == View.VISIBLE
-        binding.expandableContent1.visibility = if (isVisible) View.GONE else View.VISIBLE
-        binding.arrowButton1.setImageResource(
-            if (isVisible) R.drawable.ic_arrow_down else R.drawable.ic_arrow_up
-        )
-    }
-    private fun toggleVisibility2() {
-        val isVisible = binding.expandableContent2.visibility == View.VISIBLE
-        binding.expandableContent2.visibility = if (isVisible) View.GONE else View.VISIBLE
-        binding.arrowButton2.setImageResource(
-            if (isVisible) R.drawable.ic_arrow_down else R.drawable.ic_arrow_up
-        )
-    }
-    private fun toggleVisibility3() {
-        val isVisible = binding.expandableContent3.visibility == View.VISIBLE
-        binding.expandableContent3.visibility = if (isVisible) View.GONE else View.VISIBLE
-        binding.arrowButton3.setImageResource(
-            if (isVisible) R.drawable.ic_arrow_down else R.drawable.ic_arrow_up
-        )
+    private fun toggleVisibility(content: View, arrowButton: ImageButton) {
+        val isVisible = content.visibility == View.VISIBLE
+
+        if (isVisible) {
+            // Скрываем с анимацией
+            val animator = ObjectAnimator.ofFloat(content, "alpha", 1f, 0f)
+            animator.duration = 300
+            animator.start()
+            content.visibility = View.GONE
+            arrowButton.setImageResource(R.drawable.ic_arrow_down)  // Для ImageButton
+        } else {
+            // Показываем с анимацией
+            content.visibility = View.VISIBLE
+            val animator = ObjectAnimator.ofFloat(content, "alpha", 0f, 1f)
+            animator.duration = 300
+            animator.start()
+            arrowButton.setImageResource(R.drawable.ic_arrow_up)  // Для ImageButton
+        }
     }
 
     private fun showCustomToast() {
