@@ -1,8 +1,9 @@
-package com.example.realapp
+package com.example.realapp.ui.attributes
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
+import com.example.realapp.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

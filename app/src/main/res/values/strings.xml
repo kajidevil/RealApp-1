@@ -4,8 +4,19 @@
     <string name="attributes">ATTRIBUTES </string>
 
     <string name="project_manager">PROJECT MANAGER/TECHNICAN <font color="#FF0000">*</font></string>
+    <string name="address">ADDRESS<font color="#FF0000">*</font></string>
+    <string name="house">HOUSE<font color="#FF0000">*</font></string>
+    <string name="street">STREET<font color="#FF0000">*</font></string>
+    <string name="city">CITY<font color="#FF0000">*</font></string>
+    <string name="state">STATE<font color="#FF0000">*</font></string>
+    <string name="postal_code">POSTAL CODE<font color="#FF0000">*</font></string>
     <string name="name">NAME <font color="#FF0000">*</font></string>
     <string name="enter_name">Enter name </string>
+    <string name="enter_house_number">Enter house number </string>
+    <string name="enter_street">Enter street </string>
+    <string name="enter_city">Enter city </string>
+    <string name="enter_state">Enter state </string>
+    <string name="enter_postal_code">Enter postal code </string>
     <string name="email">EMAIL <font color="#FF0000">*</font></string>
     <string name="enter_email">Enter email </string>
     <string name="phone_number">PHONE NUMBER <font color="#FF0000">*</font></string>
@@ -34,6 +45,10 @@
     <string name="sow_doc_attention">We will use the latest SOW-document created in the DocuSketch app. Please pay attention if it is incorrect, we may charge an additional fee. </string>
 
     <string name="toasttext">Fill in all required (<font color="#FF0000">*</font>) fields </string>
+
+    <string name="claim_info"> CLAIM INFO </string>
+
+    <string name="by_changing_the_address">By changing the address it will be changed for the whole tour. </string>
 
 
 

@@ -17,8 +17,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_flex"
             android:paddingStart="16dp"
-            android:paddingBottom="8dp"
             android:paddingTop="24dp"
+            android:paddingBottom="8dp"
             android:text="@string/attributes"
             android:textColor="@color/main_textcolor"
             android:textSize="14sp"
@@ -34,8 +34,8 @@
             android:background="@color/white"
             android:fontFamily="@font/roboto_flex"
             android:gravity="center_vertical"
-            android:paddingStart="16dp"
             android:paddingVertical="16dp"
+            android:paddingStart="16dp"
             android:text="@string/project_manager"
             android:textColor="@color/main_textcolor"
             android:textSize="14sp"
@@ -48,16 +48,15 @@
             android:id="@+id/project_manager_expandable_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@null"
             android:contentDescription="TODO"
             android:paddingVertical="12dp"
-            android:background="@null"
-            android:src="@drawable/ic_arrow_down"
-            android:scaleType="fitEnd"
             android:paddingEnd="16dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_arrow_down"
             app:layout_constraintBottom_toBottomOf="@id/project_manager_TV"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/project_manager_TV"
-             />
+            app:layout_constraintTop_toTopOf="@id/project_manager_TV" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/expandableContent1"
@@ -73,18 +72,18 @@
                 android:id="@+id/middle_guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintGuide_percent="0.4"
-                android:orientation="vertical"/>
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4" />
 
 
             <TextView
                 android:id="@+id/name_TV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
                 android:fontFamily="@font/roboto_flex"
                 android:paddingVertical="20dp"
                 android:paddingStart="16dp"
-                android:layout_marginEnd="4dp"
                 android:text="@string/name"
                 android:textColor="@color/main_textcolor"
                 android:textSize="14sp"
@@ -111,15 +110,15 @@
                 android:id="@+id/emailText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
                 android:fontFamily="@font/roboto_flex"
                 android:paddingVertical="20dp"
                 android:paddingStart="16dp"
-                android:layout_marginEnd="4dp"
                 android:text="@string/email"
                 android:textColor="@color/main_textcolor"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/middle_guideline"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/name_TV" />
 
             <EditText
@@ -140,10 +139,10 @@
                 android:id="@+id/phoneNumberText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
                 android:fontFamily="@font/roboto_flex"
                 android:paddingVertical="20dp"
                 android:paddingStart="16dp"
-                android:layout_marginEnd="4dp"
                 android:text="@string/phone_number"
                 android:textColor="@color/main_textcolor"
                 android:textSize="14sp"
@@ -171,10 +170,10 @@
             android:id="@+id/custompolicyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp"
             android:layout_marginTop="24dp"
             android:background="@color/white"
             android:fontFamily="@font/roboto_flex"
+            android:paddingVertical="16dp"
             android:paddingStart="16dp"
             android:text="@string/customer_policyholder"
             android:textColor="@color/main_textcolor"
@@ -189,21 +188,21 @@
             android:id="@+id/customer_expandable_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="12dp"
             android:background="@null"
-            android:src="@drawable/ic_arrow_down"
-            android:scaleType="fitEnd"
+            android:paddingVertical="12dp"
             android:paddingEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_arrow_down"
             app:layout_constraintBottom_toBottomOf="@id/custompolicyText"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/custompolicyText" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/expandableContent2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:background="@color/white"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/custompolicyText">
@@ -212,22 +211,22 @@
                 android:id="@+id/middle_guideline2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintGuide_percent="0.4"
-                android:orientation="vertical"/>
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4" />
 
             <TextView
                 android:id="@+id/firstNameText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
                 android:fontFamily="@font/roboto_flex"
                 android:paddingVertical="20dp"
                 android:paddingStart="16dp"
-                android:layout_marginEnd="4dp"
                 android:text="@string/first_name"
                 android:textColor="@color/main_textcolor"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/middle_guideline2"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints" />
 
             <EditText
@@ -242,21 +241,21 @@
                 app:layout_constraintBottom_toBottomOf="@id/firstNameText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/middle_guideline2"
-                app:layout_constraintTop_toTopOf="@id/firstNameText"/>
+                app:layout_constraintTop_toTopOf="@id/firstNameText" />
 
             <TextView
                 android:id="@+id/lastNameText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_flex"
                 android:layout_marginEnd="4dp"
+                android:fontFamily="@font/roboto_flex"
                 android:paddingVertical="20dp"
                 android:paddingStart="16dp"
                 android:text="@string/last_name"
                 android:textColor="@color/main_textcolor"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/middle_guideline2"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/firstNameText" />
 
             <EditText
@@ -271,16 +270,16 @@
                 app:layout_constraintBottom_toBottomOf="@id/lastNameText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/middle_guideline2"
-                app:layout_constraintTop_toTopOf="@id/lastNameText"/>
+                app:layout_constraintTop_toTopOf="@id/lastNameText" />
 
             <CheckBox
                 android:id="@+id/checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingVertical="12dp"
                 android:layout_marginStart="16dp"
                 android:button="@drawable/custom_checkbox"
                 android:gravity="center_vertical"
+                android:paddingVertical="12dp"
                 android:paddingStart="12dp"
                 android:text="@string/customer_is_business"
                 app:layout_constraintTop_toBottomOf="@id/lastNameText">
@@ -293,9 +292,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:paddingVertical="16dp"
             android:background="@color/white"
             android:fontFamily="@font/roboto_flex"
+            android:paddingVertical="16dp"
             android:paddingStart="16dp"
             android:text="@string/carrier"
             android:textColor="@color/main_textcolor"
@@ -308,22 +307,21 @@
             android:id="@+id/carrier_expandable_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="12dp"
             android:background="@null"
-            android:src="@drawable/ic_arrow_down"
-            android:scaleType="fitEnd"
+            android:paddingVertical="12dp"
             android:paddingEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitEnd"
+            android:src="@drawable/ic_arrow_down"
             app:layout_constraintBottom_toBottomOf="@id/carrierText"
-            app:layout_constraintTop_toTopOf="@id/carrierText"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/carrierText" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/expandableContent3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone1"
             android:background="@color/white"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/carrierText">
@@ -332,22 +330,22 @@
                 android:id="@+id/middle_guideline3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintGuide_percent="0.4"
-                android:orientation="vertical"/>
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.4" />
 
             <TextView
                 android:id="@+id/carriernameText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
                 android:fontFamily="@font/roboto_flex"
                 android:paddingVertical="16dp"
                 android:paddingStart="16dp"
-                android:layout_marginEnd="4dp"
                 android:text="@string/carrier_name"
                 android:textColor="@color/main_textcolor"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/middle_guideline3"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints" />
 
             <EditText
@@ -361,22 +359,21 @@
                 app:layout_constraintBottom_toBottomOf="@id/carriernameText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/middle_guideline3"
-
                 app:layout_constraintTop_toTopOf="@id/carriernameText" />
 
             <TextView
                 android:id="@+id/guidetext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingVertical="20dp"
-                android:fontFamily="@font/roboto_flex"
-                android:paddingStart="16dp"
                 android:layout_marginEnd="4dp"
+                android:fontFamily="@font/roboto_flex"
+                android:paddingVertical="20dp"
+                android:paddingStart="16dp"
                 android:text="@string/guideliness"
                 android:textColor="@color/main_textcolor"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/middle_guideline3"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/carriernameText" />
 
             <EditText
@@ -398,8 +395,8 @@
             android:id="@+id/scopeofworktext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_flex"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_flex"
             android:paddingVertical="8dp"
             android:paddingStart="16dp"
             android:paddingTop="24dp"
@@ -414,7 +411,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:text="@string/download_file"
-            app:layout_constraintTop_toBottomOf="@id/scopeofworktext"/>
+            app:layout_constraintTop_toBottomOf="@id/scopeofworktext" />
 
         <TextView
             android:id="@+id/sow_doc"
@@ -431,7 +428,7 @@
             android:paddingBottom="8dp"
             android:text="@string/sow_doc_attention"
             android:textSize="12dp"
-            app:layout_constraintTop_toBottomOf="@id/btnSelectFile"/>
+            app:layout_constraintTop_toBottomOf="@id/btnSelectFile" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -440,7 +437,7 @@
             android:layout_marginTop="24dp"
             android:src="@drawable/icon_16x16"
             app:layout_constraintStart_toStartOf="@id/sow_doc"
-            app:layout_constraintTop_toTopOf="@id/sow_doc"/>
+            app:layout_constraintTop_toTopOf="@id/sow_doc" />
 
         <View
             android:id="@+id/backlast"
@@ -448,7 +445,7 @@
             android:layout_height="64dp"
             android:layout_marginTop="24dp"
             android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/sow_doc"/>
+            app:layout_constraintTop_toBottomOf="@id/sow_doc" />
 
         <Button
             android:id="@+id/nextButton"
@@ -464,7 +461,7 @@
             app:layout_constraintBottom_toBottomOf="@id/backlast"
             app:layout_constraintEnd_toEndOf="@id/backlast"
             app:layout_constraintStart_toStartOf="@id/backlast"
-            app:layout_constraintTop_toTopOf="@id/backlast"/>
+            app:layout_constraintTop_toTopOf="@id/backlast" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
