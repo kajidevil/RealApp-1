@@ -1,35 +1,37 @@
 <resources>
     <string name="app_name">RealApp</string>
 
-    <string name="title_1">ATTRIBUTES </string>
+    <string name="attributes">ATTRIBUTES </string>
 
-    <string name="title_2">PROJECT MANAGER/TECHNICAN <font color="#FF0000">*</font></string>
-    <string name="title_2.1">NAME <font color="#FF0000">*</font></string>
-    <string name="title_2.1.1">Enter name </string>
-    <string name="title_2.2">EMAIL <font color="#FF0000">*</font></string>
-    <string name="title_2.2.1">Enter email </string>
-    <string name="title_2.3">PHONE NUMBER <font color="#FF0000">*</font></string>
-    <string name="title_2.3.1">Enter phone number </string>
+    <string name="project_manager">PROJECT MANAGER/TECHNICAN <font color="#FF0000">*</font></string>
+    <string name="name">NAME <font color="#FF0000">*</font></string>
+    <string name="enter_name">Enter name </string>
+    <string name="email">EMAIL <font color="#FF0000">*</font></string>
+    <string name="enter_email">Enter email </string>
+    <string name="phone_number">PHONE NUMBER <font color="#FF0000">*</font></string>
+    <string name="enter_phone_number">Enter phone number </string>
 
-    <string name="title_3">CUSTOMER (POLICYHOLDER) <font color="#FF0000">*</font></string>
-    <string name="title_3.1">FIRST NAME <font color="#FF0000">*</font></string>
-    <string name="title_3.1.1">Enter first name </string>
+    <string name="customer_policyholder">CUSTOMER (POLICYHOLDER) <font color="#FF0000">*</font></string>
+    <string name="first_name">FIRST NAME <font color="#FF0000">*</font></string>
+    <string name="enter_first_name">Enter first name </string>
 
-    <string name="title_3.2">LAST NAME <font color="#FF0000">*</font></string>
-    <string name="title_3.2.1">Enter last name </string>
-    <string name="title_3.3">Customer (Policeholder) is business </string>
+    <string name="last_name">LAST NAME <font color="#FF0000">*</font></string>
+    <string name="enter_last_name">Enter last name </string>
+    <string name="customer_is_business">Customer (Policeholder) is business </string>
 
-    <string name="title_4">CARRIER <font color="#FF0000">*</font></string>
-    <string name="title_4.1">CARRIER NAME <font color="#FF0000">*</font></string>
-    <string name="title_4.1.1"> Enter your notes here </string>
-    <string name="title_4.2">GUIDELINES </string>
-    <string name="title_4.2.1"> Apply guidelines </string>
+    <string name="carrier">CARRIER <font color="#FF0000">*</font></string>
+    <string name="carrier_name">CARRIER NAME <font color="#FF0000">*</font></string>
+    <string name="enter_notes"> Enter your notes here </string>
+    <string name="guideliness">GUIDELINES </string>
+    <string name="apply_guidelines"> Apply guidelines </string>
 
-    <string name="title_5">SCOPE OF WORK </string>
+    <string name="scope_of_work">SCOPE OF WORK </string>
 
-    <string name="title_5.1">Download File </string>
+    <string name="download_file">Download File </string>
 
-    <string name="title_6">We will use the latest SOW-document created in the DocuSketch app. Please pay attention if it is incorrect, we may charge an additional fee. </string>
+    <string name="next">NEXT </string>
+
+    <string name="sow_doc_attention">We will use the latest SOW-document created in the DocuSketch app. Please pay attention if it is incorrect, we may charge an additional fee. </string>
 
     <string name="toasttext">Fill in all required (<font color="#FF0000">*</font>) fields </string>
 

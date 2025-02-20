@@ -27,12 +27,12 @@ class FirstCollapsingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.nextButton.setOnClickListener {
-            if (binding.editText11.text.toString().trim().isEmpty() ||
-                binding.editText12.text.toString().trim().isEmpty() ||
-                binding.editText13.text.toString().trim().isEmpty() ||
-                binding.editText21.text.toString().trim().isEmpty() ||
-                binding.editText22.text.toString().trim().isEmpty() ||
-                binding.editText41.text.toString().trim().isEmpty() ||
+            if (binding.enterNameET.text.toString().trim().isEmpty() ||
+                binding.enterEmailET.text.toString().trim().isEmpty() ||
+                binding.enterPhoneNumberET.text.toString().trim().isEmpty() ||
+                binding.enterFirstNameET.text.toString().trim().isEmpty() ||
+                binding.enterLastNameET.text.toString().trim().isEmpty() ||
+                binding.enterNotesET.text.toString().trim().isEmpty() ||
                 !binding.checkbox.isChecked
             ) {
                 showCustomToast()
@@ -41,14 +41,14 @@ class FirstCollapsingFragment : Fragment() {
             }
         }
 
-        binding.arrowButton1.setOnClickListener {
-            toggleVisibility(binding.expandableContent1, binding.arrowButton1)
+        binding.projectManagerExpandableBtn.setOnClickListener {
+            toggleVisibility(binding.expandableContent1, binding.projectManagerExpandableBtn)
         }
-        binding.arrowButton2.setOnClickListener {
-            toggleVisibility(binding.expandableContent2, binding.arrowButton2)
+        binding.customerExpandableBtn.setOnClickListener {
+            toggleVisibility(binding.expandableContent2, binding.customerExpandableBtn)
         }
-        binding.arrowButton3.setOnClickListener {
-            toggleVisibility(binding.expandableContent3, binding.arrowButton3)
+        binding.carrierExpandableBtn.setOnClickListener {
+            toggleVisibility(binding.expandableContent3, binding.carrierExpandableBtn)
         }
     }
 
