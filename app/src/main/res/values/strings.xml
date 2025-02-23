@@ -4,6 +4,7 @@
     <string name="attributes">ATTRIBUTES </string>
 
     <string name="project_manager">PROJECT MANAGER/TECHNICAN <font color="#FF0000">*</font></string>
+    <string name="loss_types">LOSS TYPES <font color="#FF0000">*</font></string>
     <string name="address">ADDRESS<font color="#FF0000">*</font></string>
     <string name="house">HOUSE<font color="#FF0000">*</font></string>
     <string name="street">STREET<font color="#FF0000">*</font></string>
@@ -21,6 +22,31 @@
     <string name="enter_email">Enter email </string>
     <string name="phone_number">PHONE NUMBER <font color="#FF0000">*</font></string>
     <string name="enter_phone_number">Enter phone number </string>
+    <string name="use_my_location">USE MY LOCATION </string>
+    <string name="water">Water </string>
+    <string name="fire">Fire </string>
+    <string name="vehicle_impact">Vehicle Impact </string>
+    <string name="trauma">Trauma </string>
+    <string name="environmetal">Environmental </string>
+    <string name="other">Other </string>
+    <string name="category_of_water">Category of water </string>
+
+    <string name="cat_one">CAT 1 </string>
+    <string name="cat_two">CAT 2 </string>
+    <string name="cat_three">CAT 3 </string>
+
+    <string name="class_of_water">Class of water </string>
+
+    <string name="class_one">Class 1 </string>
+    <string name="class_two">Class 2 </string>
+    <string name="class_three">Class 3 </string>
+    <string name="class_four">Class 4 </string>
+    <string name="class_not_defined">Not defined </string>
+    <string name="class_not_defined_2">Cannot be defined for entire tour </string>
+
+    <string name="catergory_water_exp_text">Category of water indicates contamination level. Class of water depends on wet surface area and material properties. See ANSI/IICRC S500 for details. </string>
+
+
 
     <string name="customer_policyholder">CUSTOMER (POLICYHOLDER) <font color="#FF0000">*</font></string>
     <string name="first_name">FIRST NAME <font color="#FF0000">*</font></string>

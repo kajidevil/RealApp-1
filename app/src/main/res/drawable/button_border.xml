@@ -1,0 +1,8 @@
+<!-- res/drawable/button_border.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@android:color/transparent" /> <!-- Прозрачный фон -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/main_border_color" /> <!-- Цвет и толщина границы -->
+    <corners android:radius="4dp" /> <!-- Скругление углов -->
+</shape>
