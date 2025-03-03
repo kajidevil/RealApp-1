@@ -1,0 +1,35 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/firstCollapsingFragment">
+
+    <fragment
+        android:id="@+id/firstCollapsingFragment"
+        android:name="com.example.realapp.ui.attributes.FirstCollapsingFragment"
+        android:label="First Fragment">
+
+        <!-- Добавляем действие -->
+        <action
+            android:id="@+id/action_firstCollapsingFragment_to_secondAttributesFragment"
+            app:destination="@id/secondAttributesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/secondAttributesFragment"
+        android:name="com.example.realapp.ui.attributes.SecondAttributesFragment"
+        android:label="Second Fragment" >
+
+        <action
+            android:id="@+id/action_secondAttributesFragment_to_thirdAtTributesFragment"
+            app:destination="@id/thirdAttributesFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/thirdAttributesFragment"
+        android:name="com.example.realapp.ui.attributes.ThirdFragment"
+        android:label="Third Fragment"/>
+
+
+
+</navigation>

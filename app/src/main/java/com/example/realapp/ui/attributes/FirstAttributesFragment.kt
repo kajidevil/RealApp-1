@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.realapp.R
 import com.example.realapp.databinding.FirstCollapseBinding
 import com.example.realapp.estimate.domain.model.AttributesData
@@ -39,13 +40,8 @@ class FirstCollapsingFragment : Fragment() {
 
         binding.nextButton.setOnClickListener {
             if (isFormValid()) {
-                saveDataToViewModel() // Сохраняем данные перед переходом
-
-                val secondFragment = SecondAttributesFragment()
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, secondFragment)
-                    .addToBackStack(null)
-                    .commit()
+                saveDataToViewModel()
+                findNavController().navigate(R.id.action_firstCollapsingFragment_to_secondAttributesFragment)
             } else {
                 showCustomToast()
             }

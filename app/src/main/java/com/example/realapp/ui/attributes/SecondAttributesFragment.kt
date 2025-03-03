@@ -3,6 +3,7 @@ package com.example.realapp.ui.attributes
 import android.Manifest
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -17,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.realapp.R
 import com.example.realapp.databinding.SecondAttributesBinding
 import com.example.realapp.estimate.domain.model.AddressData
@@ -49,11 +51,7 @@ class SecondAttributesFragment : Fragment() {
             if (isFormValid()) {
                 saveDataToViewModel()
 
-                val thirdFragment = ThirdFragment()
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, thirdFragment)
-                    .addToBackStack(null)
-                    .commit()
+                findNavController().navigate(R.id.action_secondAttributesFragment_to_thirdAtTributesFragment)
             } else {
                 showCustomToast()
             }
@@ -76,6 +74,7 @@ class SecondAttributesFragment : Fragment() {
             binding.expandableContent6.visibility =
                 if (binding.waterLossBtn.isSelected) View.VISIBLE else View.GONE
         }
+
 
         val clickableViews = listOf(
             binding.cat1Btn,
@@ -168,6 +167,7 @@ class SecondAttributesFragment : Fragment() {
             }
         }
 
+    @SuppressLint("MissingPermission")
     private fun getLocation() {
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
