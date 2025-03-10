@@ -137,8 +137,6 @@ class SecondAttributesFragment : Fragment() {
             postalCodeName = binding.enterPostalCodeET.text.toString()
         )
 
-        val claimInfoData = ClaimInfoData(adress = addressData)
-        viewModel.claimInfoData.value = claimInfoData
     }
 
     override fun onDestroyView() {

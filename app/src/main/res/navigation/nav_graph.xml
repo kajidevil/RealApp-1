@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/firstCollapsingFragment"
-        android:name="com.example.realapp.ui.attributes.FirstCollapsingFragment"
+        android:name="com.example.realapp.ui.attributes.AttributesFragment"
         android:label="First Fragment">
 
         <!-- Добавляем действие -->
