@@ -51,7 +51,6 @@ class SecondAttributesFragment : Fragment() {
             if (isFormValid()) {
                 saveDataToViewModel()
 
-                findNavController().navigate(R.id.action_secondAttributesFragment_to_thirdAtTributesFragment)
             } else {
                 showCustomToast()
             }

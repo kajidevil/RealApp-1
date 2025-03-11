@@ -7,29 +7,13 @@
         android:id="@+id/firstCollapsingFragment"
         android:name="com.example.realapp.ui.attributes.AttributesFragment"
         android:label="First Fragment">
-
         <!-- Добавляем действие -->
         <action
             android:id="@+id/action_firstCollapsingFragment_to_secondAttributesFragment"
             app:destination="@id/secondAttributesFragment" />
     </fragment>
-
     <fragment
         android:id="@+id/secondAttributesFragment"
         android:name="com.example.realapp.ui.attributes.SecondAttributesFragment"
-        android:label="Second Fragment" >
-
-        <action
-            android:id="@+id/action_secondAttributesFragment_to_thirdAtTributesFragment"
-            app:destination="@id/thirdAttributesFragment" />
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/thirdAttributesFragment"
-        android:name="com.example.realapp.ui.attributes.ThirdFragment"
-        android:label="Third Fragment"/>
-
-
-
+        android:label="Second Fragment"></fragment>
 </navigation>

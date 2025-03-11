@@ -1,90 +1,58 @@
 package com.example.realapp.ui.attributes
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.realapp.estimate.domain.model.AttributesData
-import com.example.realapp.estimate.domain.model.ClaimInfoData
-import com.example.realapp.estimate.domain.model.ProjectManagerData
-import com.example.realapp.estimate.domain.model.CustomerData
-import com.example.realapp.estimate.domain.model.CarrierData
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 
 
-class AttributesViewModel : ViewModel() {
 
-    private var isProjectManagerExpanded = false
-    private var isCustomerExpanded = false
-    private var isCarrierExpanded = false
+class AttributesViewModel : ViewModel(), ContainerHost<AttributesState, AttributesSideEffect> {
 
-    private val _state = MutableLiveData<AttributesState>()
-    val state: LiveData<AttributesState> get() = _state
+    override val container = container<AttributesState, AttributesSideEffect>(AttributesState())
 
-    private val _attributesData = MutableLiveData<AttributesData>()
-    val attributesData: LiveData<AttributesData> get() = _attributesData
-
-    private val _claimInfoData = MutableLiveData<ClaimInfoData>()
-    val claimInfoData: LiveData<ClaimInfoData> get() = _claimInfoData
-
-    fun processIntent(intent: AttributesIntent) {
+    fun onIntent(intent: AttributesIntent) {
         when (intent) {
-            is AttributesIntent.UpdateForm -> {
-                // Обновляем LiveData с данными формы
-                _attributesData.value = AttributesData(
-                    projectManager = ProjectManagerData(
-                        firstName = intent.firstName,
-                        lastName = intent.lastName,
-                        email = intent.email,
-                        phoneNumber = intent.phone
-                    ),
-                    customerData = CustomerData(
-                        firstName = intent.name,
-                        lastName = intent.lastName,
-                        customerIsBusiness = intent.isBusiness
-                    ),
-                    carrierData = CarrierData(
-                        carrierName = "Carrier name", // Можешь добавить поле для ввода
-                        carrierGuideLines = intent.notes
-                    )
-                )
-            }
-
-            AttributesIntent.SubmitForm -> {
-                if (isFormValid()) {
-                    _state.value = AttributesState.Success
-                } else {
-                    _state.value = AttributesState.Error("Форма заполнена некорректно!")
-                }
-            }
-
-            AttributesIntent.ExpandProjectManager -> {
-                isProjectManagerExpanded = !isProjectManagerExpanded
-                _state.value = AttributesState.ExpandProjectManager(isProjectManagerExpanded)
-            }
-
-            AttributesIntent.ExpandCustomer -> {
-                isCustomerExpanded = !isCustomerExpanded
-                _state.value = AttributesState.ExpandCustomer(isCustomerExpanded)
-            }
-
-            AttributesIntent.ExpandCarrier -> {
-                isCarrierExpanded = !isCarrierExpanded
-                _state.value = AttributesState.ExpandCarrier(isCarrierExpanded)
-            }
-
-            else -> {}
+            is AttributesIntent.UpdateName -> updateState { it.copy(name = intent.name) }
+            is AttributesIntent.UpdateEmail -> updateState { it.copy(email = intent.email) }
+            is AttributesIntent.UpdatePhoneNumber -> updateState { it.copy(phoneNumber = intent.phoneNumber) }
+            is AttributesIntent.UpdateFirstName -> updateState { it.copy(firstName = intent.firstName) }
+            is AttributesIntent.UpdateLastName -> updateState { it.copy(lastName = intent.lastName) }
+            is AttributesIntent.UpdateCustomerType -> updateState { it.copy(customerIsBusiness = intent.isBusiness) }
+            is AttributesIntent.UpdateCarrierName -> updateState { it.copy(carrierName = intent.carrierName) }
+            is AttributesIntent.UpdateGuidelines -> updateState { it.copy(guidelines = intent.guidelines) }
+            is AttributesIntent.SubmitForm -> validateForm()
         }
     }
 
+    private fun updateState(update: (AttributesState) -> AttributesState) {
+        intent { reduce { update(state) } }
+    }
 
-    private fun isFormValid(): Boolean {
-        val attributes = _attributesData.value
-        return attributes != null &&
-                attributes.projectManager != null &&
-                attributes.customerData != null &&
-                attributes.carrierData != null &&
-                attributes.projectManager.firstName.isNotEmpty() &&
-                attributes.customerData.firstName.isNotEmpty() &&
-                attributes.carrierData.carrierName.isNotEmpty()
+    private fun validateForm() {
+        intent {
+            if (isFormValid(state)) {
+                postSideEffect(AttributesSideEffect.NavigateNext)
+            } else {
+                postSideEffect(AttributesSideEffect.ShowIncompleteFormToast)
+            }
+        }
+    }
+
+    private fun isFormValid(state: AttributesState): Boolean {
+        val requiredFields = listOf(
+            state.name,
+            state.email,
+            state.phoneNumber,
+            state.firstName,
+            state.lastName,
+            state.carrierName
+        )
+        return requiredFields.all { it.isNotBlank() }
     }
 
 }
+
+

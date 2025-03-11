@@ -8,8 +8,12 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.realapp.R
 import com.example.realapp.databinding.AttributesBinding
@@ -22,6 +26,8 @@ import com.example.realapp.estimate.domain.model.ProjectManagerData
 import com.example.realapp.estimate.domain.model.CustomerData
 import com.example.realapp.estimate.domain.model.CarrierData
 import com.example.realapp.estimate.domain.model.AddressData
+import com.example.realapp.ui.attributes.AttributesSideEffect
+import kotlinx.coroutines.launch
 
 class AttributesFragment : Fragment() {
 
@@ -40,107 +46,76 @@ class AttributesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity())[AttributesViewModel::class.java]
+        viewModel = ViewModelProvider(this)[AttributesViewModel::class.java]
 
-        binding.nextButton.setOnClickListener {
-            viewModel.processIntent(AttributesIntent.SubmitForm)
-        }
+        setupListeners()
+        observeViewModel()
+    }
 
-        binding.projectManagerExpandableBtn.setOnClickListener {
-            viewModel.processIntent(AttributesIntent.ExpandProjectManager)
-        }
+    private fun setupListeners() {
+        with(binding) {
+            enterNameET.doAfterTextChanged { text ->
+                viewModel.onIntent(AttributesIntent.UpdateName(text.toString()))
+            }
+            enterEmailET.doAfterTextChanged { text ->
+                viewModel.onIntent(AttributesIntent.UpdateEmail(text.toString()))
+            }
+            enterPhoneNumberET.doAfterTextChanged { text ->
+                viewModel.onIntent(AttributesIntent.UpdatePhoneNumber(text.toString()))
+            }
+            enterFirstNameET.doAfterTextChanged { text ->
+                viewModel.onIntent(AttributesIntent.UpdateFirstName(text.toString()))
+            }
+            enterLastNameET.doAfterTextChanged { text ->
+                viewModel.onIntent(AttributesIntent.UpdateLastName(text.toString()))
+            }
+            checkbox.setOnCheckedChangeListener { _, isChecked ->
+                viewModel.onIntent(AttributesIntent.UpdateCustomerType(isChecked))
+            }
+            enterNotesET.doAfterTextChanged { text ->
+                viewModel.onIntent(AttributesIntent.UpdateCarrierName(text.toString()))
+            }
+            applyGuideET.doAfterTextChanged { text ->
+                viewModel.onIntent(AttributesIntent.UpdateGuidelines(text.toString()))
+            }
 
-        binding.customerExpandableBtn.setOnClickListener {
-            viewModel.processIntent(AttributesIntent.ExpandCustomer)
-        }
+            nextButton.setOnClickListener {
+                viewModel.onIntent(AttributesIntent.SubmitForm)
+            }
 
-        binding.carrierExpandableBtn.setOnClickListener {
-            viewModel.processIntent(AttributesIntent.ExpandCarrier)
-        }
-
-        // Наблюдаем за состоянием
-        viewModel.state.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is AttributesState.ExpandProjectManager -> {
-                    if (state.isExpanded) {
-                        binding.expandableContent1.visibility = View.VISIBLE
-                    } else {
-                        binding.expandableContent1.visibility = View.GONE
-                    }
-                }
-
-                is AttributesState.ExpandCustomer -> {
-                    if (state.isExpanded) {
-                        binding.expandableContent2.visibility = View.VISIBLE
-                    } else {
-                        binding.expandableContent2.visibility = View.GONE
-                    }
-                }
-
-                is AttributesState.ExpandCarrier -> {
-                    if (state.isExpanded) {
-                        binding.expandableContent3.visibility = View.VISIBLE
-                    } else {
-                        binding.expandableContent3.visibility = View.GONE
-                    }
-                }
-
-
-                is AttributesState.Success -> {
-                    findNavController().navigate(R.id.action_firstCollapsingFragment_to_secondAttributesFragment)
-                }
-
-                is AttributesState.Error -> {
-                    showCustomToast(state.message)
-                }
-
-                else -> Unit
+            // Разворачиваемые блоки
+            projectManagerExpandableBtn.setOnClickListener {
+                expandableContent1.toggleVisibility()
+            }
+            customerExpandableBtn.setOnClickListener {
+                expandableContent2.toggleVisibility()
+            }
+            carrierExpandableBtn.setOnClickListener {
+                expandableContent3.toggleVisibility()
             }
         }
-
-
-        // Отслеживаем ввод данных
-        setupFormListeners()
     }
 
-    private fun setupFormListeners() {
-        binding.enterNameET.addTextChangedListener {
-            updateForm()
-        }
-        binding.enterEmailET.addTextChangedListener {
-            updateForm()
-        }
-        binding.enterPhoneNumberET.addTextChangedListener {
-            updateForm()
-        }
-        binding.enterFirstNameET.addTextChangedListener {
-            updateForm()
-        }
-        binding.enterLastNameET.addTextChangedListener {
-            updateForm()
-        }
-        binding.enterNotesET.addTextChangedListener {
-            updateForm()
-        }
-        binding.checkbox.setOnCheckedChangeListener { _, _ ->
-            updateForm()
+    private fun observeViewModel() {
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.container.sideEffectFlow.collect { effect ->
+                    when (effect) {
+                        is AttributesSideEffect.ShowIncompleteFormToast ->
+                            showCustomToast("Заполните все обязательные поля!")
+
+                        is AttributesSideEffect.NavigateNext ->
+                            findNavController().navigate(R.id.action_firstCollapsingFragment_to_secondAttributesFragment)
+                    }
+                }
+            }
         }
     }
 
-    private fun updateForm() {
-        viewModel.processIntent(
-            AttributesIntent.UpdateForm(
-                name = binding.enterNameET.text.toString(),
-                email = binding.enterEmailET.text.toString(),
-                phone = binding.enterPhoneNumberET.text.toString(),
-                firstName = binding.enterFirstNameET.text.toString(),
-                lastName = binding.enterLastNameET.text.toString(),
-                notes = binding.enterNotesET.text.toString(),
-                isBusiness = binding.checkbox.isChecked
-            )
-        )
-    }
 
+    fun View.toggleVisibility() {
+        visibility = if (visibility == View.VISIBLE) View.GONE else View.VISIBLE
+    }
 
     private fun showCustomToast(message: String) {
         val inflater = layoutInflater

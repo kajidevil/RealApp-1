@@ -43,7 +43,8 @@ android {
 }
 
 dependencies {
-
+    implementation("org.orbit-mvi:orbit-core:4.3.2") // Основная библиотека
+    implementation("org.orbit-mvi:orbit-viewmodel:4.3.2") // Для работы с ViewModel
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.core.ktx)
