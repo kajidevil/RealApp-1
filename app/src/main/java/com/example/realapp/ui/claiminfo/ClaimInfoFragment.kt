@@ -1,4 +1,4 @@
-package com.example.realapp.ui.attributes
+package com.example.realapp.ui.claiminfo
 
 import android.Manifest
 
@@ -18,15 +18,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.realapp.R
 import com.example.realapp.databinding.SecondAttributesBinding
 import com.example.realapp.estimate.domain.model.AddressData
-import com.example.realapp.estimate.domain.model.ClaimInfoData
+import com.example.realapp.ui.attributes.AttributesViewModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
-class SecondAttributesFragment : Fragment() {
+class ClaimInfoFragment : Fragment() {
 
     private var _binding: SecondAttributesBinding? = null
     private val binding get() = _binding!!

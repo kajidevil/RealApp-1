@@ -7,27 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.realapp.R
 import com.example.realapp.databinding.AttributesBinding
-import com.example.realapp.ui.attributes.AttributesState
-import com.example.realapp.ui.attributes.AttributesIntent
-import com.example.realapp.ui.attributes.AttributesViewModel
-import com.example.realapp.estimate.domain.model.AttributesData
-import com.example.realapp.estimate.domain.model.ClaimInfoData
-import com.example.realapp.estimate.domain.model.ProjectManagerData
-import com.example.realapp.estimate.domain.model.CustomerData
-import com.example.realapp.estimate.domain.model.CarrierData
-import com.example.realapp.estimate.domain.model.AddressData
-import com.example.realapp.ui.attributes.AttributesSideEffect
-import kotlinx.coroutines.launch
+import com.example.realapp.ui.attributes.mapper.AttributesMapper
+import com.example.realapp.ui.attributes.mvi.AttributesAction
+import com.example.realapp.ui.attributes.mvi.AttributesSideEffect
+import com.example.realapp.ui.attributes.mvi.AttributesViewState
+import org.orbitmvi.orbit.viewmodel.observe
 
 class AttributesFragment : Fragment() {
 
@@ -46,41 +34,54 @@ class AttributesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[AttributesViewModel::class.java]
+        viewModel = AttributesViewModel(AttributesMapper())//??
 
+        viewModel.observe(
+            lifecycleOwner = viewLifecycleOwner,
+            state = ::handleState,
+            sideEffect = ::handleSideEffect
+        )
         setupListeners()
-        observeViewModel()
+    }
+
+    private fun handleState(state: AttributesViewState) = with(binding) {
+        enterNameET.setText(state.name)
+        enterEmailET.setText(state.email)
+        enterPhoneNumberET.setText(state.phoneNumber)
+        enterFirstNameET.setText(state.firstName)
+        enterLastNameET.setText(state.lastName)
+        customerIsBusinessCheckbox.isChecked = state.customerIsBusiness
+        enterCarrierNameET.setText(state.carrierName)
+        enterGuidelinesET.setText(state.guidelines)
+    }
+
+    private fun handleSideEffect(effect: AttributesSideEffect) {
+        when (effect) {
+            is
+            AttributesSideEffect.NavigateNext ->
+                findNavController().navigate(R.id.action_firstCollapsingFragment_to_secondAttributesFragment)
+
+            AttributesSideEffect.ShowIncompleteFormToast ->
+                showCustomToast("Заполните все обязательные поля!")
+        }
     }
 
     private fun setupListeners() {
         with(binding) {
-            enterNameET.doAfterTextChanged { text ->
-                viewModel.onIntent(AttributesIntent.UpdateName(text.toString()))
-            }
-            enterEmailET.doAfterTextChanged { text ->
-                viewModel.onIntent(AttributesIntent.UpdateEmail(text.toString()))
-            }
-            enterPhoneNumberET.doAfterTextChanged { text ->
-                viewModel.onIntent(AttributesIntent.UpdatePhoneNumber(text.toString()))
-            }
-            enterFirstNameET.doAfterTextChanged { text ->
-                viewModel.onIntent(AttributesIntent.UpdateFirstName(text.toString()))
-            }
-            enterLastNameET.doAfterTextChanged { text ->
-                viewModel.onIntent(AttributesIntent.UpdateLastName(text.toString()))
-            }
-            checkbox.setOnCheckedChangeListener { _, isChecked ->
-                viewModel.onIntent(AttributesIntent.UpdateCustomerType(isChecked))
-            }
-            enterNotesET.doAfterTextChanged { text ->
-                viewModel.onIntent(AttributesIntent.UpdateCarrierName(text.toString()))
-            }
-            applyGuideET.doAfterTextChanged { text ->
-                viewModel.onIntent(AttributesIntent.UpdateGuidelines(text.toString()))
-            }
 
             nextButton.setOnClickListener {
-                viewModel.onIntent(AttributesIntent.SubmitForm)
+                viewModel.action(
+                    AttributesAction.SubmitForm(
+                        name = enterNameET.text.toString(),
+                        email = enterEmailET.text.toString(),
+                        phoneNumber = enterPhoneNumberET.text.toString(),
+                        firstName = enterFirstNameET.text.toString(),
+                        lastName = enterLastNameET.text.toString(),
+                        carrierName = enterCarrierNameET.text.toString(),
+                        guidelines = enterGuidelinesET.text.toString(),
+                        isBusiness = customerIsBusinessCheckbox.isChecked
+                    )
+                )
             }
 
             // Разворачиваемые блоки
@@ -96,24 +97,7 @@ class AttributesFragment : Fragment() {
         }
     }
 
-    private fun observeViewModel() {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.container.sideEffectFlow.collect { effect ->
-                    when (effect) {
-                        is AttributesSideEffect.ShowIncompleteFormToast ->
-                            showCustomToast("Заполните все обязательные поля!")
-
-                        is AttributesSideEffect.NavigateNext ->
-                            findNavController().navigate(R.id.action_firstCollapsingFragment_to_secondAttributesFragment)
-                    }
-                }
-            }
-        }
-    }
-
-
-    fun View.toggleVisibility() {
+    private fun View.toggleVisibility() {
         visibility = if (visibility == View.VISIBLE) View.GONE else View.VISIBLE
     }
 

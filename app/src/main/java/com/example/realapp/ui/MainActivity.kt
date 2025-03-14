@@ -1,4 +1,4 @@
-package com.example.realapp.ui.attributes
+package com.example.realapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

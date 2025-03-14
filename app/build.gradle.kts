@@ -2,8 +2,11 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt.android) // Подключаем Hilt
+    id("kotlin-kapt")
     id("kotlin-parcelize")
 }
+
 
 android {
     namespace = "com.example.realapp"
@@ -43,8 +46,10 @@ android {
 }
 
 dependencies {
-    implementation("org.orbit-mvi:orbit-core:4.3.2") // Основная библиотека
-    implementation("org.orbit-mvi:orbit-viewmodel:4.3.2") // Для работы с ViewModel
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.orbit.core) // Основная библиотека
+    implementation(libs.orbit.viewmodel) // Для работы с ViewModel
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.core.ktx)

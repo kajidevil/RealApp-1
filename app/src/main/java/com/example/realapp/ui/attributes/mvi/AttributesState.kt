@@ -1,4 +1,4 @@
-package com.example.realapp.ui.attributes
+package com.example.realapp.ui.attributes.mvi
 
 data class AttributesState(
     val name: String = "",

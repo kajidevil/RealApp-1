@@ -273,7 +273,7 @@
                 app:layout_constraintTop_toTopOf="@id/lastNameText" />
 
             <CheckBox
-                android:id="@+id/checkbox"
+                android:id="@+id/customer_is_business_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -349,7 +349,7 @@
                 tools:ignore="MissingConstraints" />
 
             <EditText
-                android:id="@+id/enter_notes_ET"
+                android:id="@+id/enter_carrier_name_ET"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -377,7 +377,7 @@
                 app:layout_constraintTop_toBottomOf="@id/carriernameText" />
 
             <EditText
-                android:id="@+id/apply_guide_ET"
+                android:id="@+id/enter_guidelines_ET"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"

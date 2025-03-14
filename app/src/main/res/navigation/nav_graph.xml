@@ -14,6 +14,6 @@
     </fragment>
     <fragment
         android:id="@+id/secondAttributesFragment"
-        android:name="com.example.realapp.ui.attributes.SecondAttributesFragment"
+        android:name="com.example.realapp.ui.claiminfo.ClaimInfoFragment"
         android:label="Second Fragment"></fragment>
 </navigation>
