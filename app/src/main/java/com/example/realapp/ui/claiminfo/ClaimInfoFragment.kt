@@ -1,216 +1,215 @@
 package com.example.realapp.ui.claiminfo
 
 import android.Manifest
-
-import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.realapp.R
-import com.example.realapp.databinding.SecondAttributesBinding
-import com.example.realapp.estimate.domain.model.AddressData
-import com.example.realapp.ui.attributes.AttributesViewModel
-import com.google.android.gms.location.FusedLocationProviderClient
+import com.example.realapp.databinding.ClaimInfoBinding
+import com.example.realapp.databinding.CustomToastBinding
+import com.example.realapp.ui.claiminfo.mvi.ClaimInfoAction
+import com.example.realapp.ui.claiminfo.mvi.ClaimInfoSideEffect
+import com.example.realapp.ui.claiminfo.mvi.ClaimInfoViewState
 import com.google.android.gms.location.LocationServices
+import dagger.hilt.android.AndroidEntryPoint
+import org.orbitmvi.orbit.viewmodel.observe
+import java.util.Locale
 
+@AndroidEntryPoint
 class ClaimInfoFragment : Fragment() {
 
-    private var _binding: SecondAttributesBinding? = null
+    private var _binding: ClaimInfoBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: AttributesViewModel
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val viewModel: ClaimInfoViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = SecondAttributesBinding.inflate(inflater, container, false)
+    ): View? {
+        _binding = ClaimInfoBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity()).get(AttributesViewModel::class.java)
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        viewModel.observe(
+            lifecycleOwner = viewLifecycleOwner,
+            state = ::handleState,
+            sideEffect = ::handleSideEffect
+        )
+        setupListeners()
+    }
 
-        binding.nextButton2.setOnClickListener {
-            if (isFormValid()) {
-                saveDataToViewModel()
+    private fun handleState(state: ClaimInfoViewState) = with(binding) {
+        enterHouseET.setText(state.house)
+        enterStreetET.setText(state.street)
+        enterCityET.setText(state.city)
+        enterStateET.setText(state.state)
+        enterPostalCodeET.setText(state.postalCode)
+    }
 
+    private fun handleSideEffect(effect: ClaimInfoSideEffect) {
+        when (effect) {
+            is ClaimInfoSideEffect.NavigateNext ->
+                findNavController().navigate(R.id.action_claimInfoFragment_to_estimateFragment)
+
+            ClaimInfoSideEffect.ShowIncompleteFormToast ->
+                showCustomToast2(getString(R.string.toasttext))
+
+            ClaimInfoSideEffect.ShowLocationErrorToast ->
+                showCustomToast2(getString(R.string.toasttext2))
+        }
+    }
+
+    private fun setupListeners() {
+        with(binding) {
+
+            nextButton2.setOnClickListener {
+                viewModel.action(
+                    ClaimInfoAction.SubmitForm(
+                        house = enterHouseET.text.toString(),
+                        street = enterStreetET.text.toString(),
+                        city = enterCityET.text.toString(),
+                        state = enterStateET.text.toString(),
+                        postalCode = enterPostalCodeET.text.toString()
+                    )
+                )
+            }
+
+            btnGetLocation.setOnClickListener {
+                getLocation()
+            }
+
+            addressExpandableBtn.setOnClickListener {
+                expandableContent4.toggleVisibility()
+            }
+            lossTypesExpandableBtn.setOnClickListener {
+                expandableContent5.toggleVisibility()
+            }
+            waterLossBtn.setOnClickListener {
+                expandableContent6.toggleVisibility()
+            }
+        }
+    }
+
+    private fun View.toggleVisibility() {
+        visibility = if (visibility == View.VISIBLE) View.GONE else View.VISIBLE
+    }
+
+    private fun showCustomToast2(message: String) {
+        val inflater = LayoutInflater.from(requireContext())
+        val binding = CustomToastBinding.inflate(inflater) // CustomToastBinding - это автогенерированный класс от custom_toast.xml
+
+        binding.tvToastMessage.text = message // Устанавливаем текст в TextView
+
+        val toast = Toast(requireContext()).apply {
+            duration = Toast.LENGTH_LONG
+            view = binding.root
+            setGravity(Gravity.BOTTOM or Gravity.FILL_HORIZONTAL, 0, 100)
+        }
+        toast.show()
+    }
+
+    private fun getLocation() {
+        if (!checkLocationPermission()) {
+            requestLocationPermission()
+            return
+        }
+
+        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    getAddressFromLocation(location.latitude, location.longitude)
+                } else {
+                    viewModel.showLocationError()
+                }
+            }
+            .addOnFailureListener {
+                viewModel.showLocationError()
+            }
+    }
+
+    private fun getAddressFromLocation(latitude: Double, longitude: Double) {
+        try {
+            val geocoder = Geocoder(requireContext(), Locale.getDefault())
+            val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+
+            if (!addresses.isNullOrEmpty()) {
+                val address = addresses[0]
+                val house = address.subThoroughfare ?: ""  // Номер дома
+                val street = address.thoroughfare ?: ""   // Улица
+                val city = address.locality ?: ""         // Город
+                val state = address.adminArea ?: ""       // Регион/штат
+                val postalCode = address.postalCode ?: "" // Почтовый индекс
+
+                viewModel.action(
+                    ClaimInfoAction.UpdateLocation(
+                        house,
+                        street,
+                        city,
+                        state,
+                        postalCode
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Ошибка определения адреса", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun checkLocationPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestLocationPermission() {
+        requestPermissions(
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            REQUEST_LOCATION_PERMISSION
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLocation()
             } else {
-                showCustomToast()
+                Toast.makeText(
+                    requireContext(),
+                    "Разрешение на геолокацию не выдано",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        }
-
-        binding.btnGetLocation.setOnClickListener {
-            checkLocationPermission()
-        }
-
-        binding.addressExpandableBtn.setOnClickListener {
-            toggleVisibility(binding.expandableContent4, binding.addressExpandableBtn)
-        }
-        binding.lossTypesExpandableBtn.setOnClickListener {
-            toggleVisibility(binding.expandableContent5, binding.lossTypesExpandableBtn)
-        }
-        binding.waterLossBtn.setOnClickListener {
-            binding.waterLossBtn.isSelected = !binding.waterLossBtn.isSelected
-
-            // Переключение видимости контента
-            binding.expandableContent6.visibility =
-                if (binding.waterLossBtn.isSelected) View.VISIBLE else View.GONE
-        }
-
-
-        val clickableViews = listOf(
-            binding.cat1Btn,
-            binding.cat2Btn,
-            binding.cat3Btn,
-            binding.classNotDefinedBtnOne
-        )
-        val clickableViews2 = listOf(
-            binding.class1Btn,
-            binding.class2Btn,
-            binding.class3Btn,
-            binding.class4Btn,
-            binding.classNotDefinedBtnTwo
-        )
-        val clickableViews3 = listOf(
-            binding.fireLossBtn,
-            binding.vehicleLossBtn,
-            binding.traumaBtn,
-            binding.environmentalLossBtn,
-            binding.otherLossBtn
-        )
-
-        clickableViews.forEach { view ->
-            view.setOnClickListener {
-                setSelectedState(view, clickableViews)
-            }
-        }
-        clickableViews2.forEach { view ->
-            view.setOnClickListener {
-                setSelectedState(view, clickableViews2)
-            }
-        }
-        // Для третьего списка: множественный выбор
-        clickableViews3.forEach { view ->
-            view.setOnClickListener {
-                view.isSelected = !view.isSelected
-            }
-        }
-
-    }
-    private fun setSelectedState(selectedView: View, allViews: List<View>) {
-        allViews.forEach { view ->
-            view.isSelected = view == selectedView
         }
     }
-    private fun isFormValid(): Boolean {
-        return binding.enterHouseET.text.toString().trim().isNotEmpty() &&
-                binding.enterStreetET.text.toString().trim().isNotEmpty() &&
-                binding.enterStateET.text.toString().trim().isNotEmpty() &&
-                binding.enterCityET.text.toString().trim().isNotEmpty() &&
-                binding.enterPostalCodeET.text.toString().trim().isNotEmpty()
-    }
 
-    private fun saveDataToViewModel() {
-        val addressData = AddressData(
-            houseName = binding.enterHouseET.text.toString(),
-            streetName = binding.enterStreetET.text.toString(),
-            cityName = binding.enterCityET.text.toString(),
-            stateName = binding.enterStateET.text.toString(),
-            postalCodeName = binding.enterPostalCodeET.text.toString()
-        )
-
+    companion object {
+        private const val REQUEST_LOCATION_PERMISSION = 1001
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        } else {
-            getLocation()
-        }
-    }
-
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                getLocation()
-            } else {
-                Toast.makeText(requireContext(), "Разрешение не предоставлено", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-    @SuppressLint("MissingPermission")
-    private fun getLocation() {
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location: Location? ->
-                if (location != null) {
-                    val latitude = location.latitude
-                    val longitude = location.longitude
-                    Toast.makeText(requireContext(), "Широта: $latitude, Долгота: $longitude", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(requireContext(), "Локация недоступна", Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
-
-    private fun toggleVisibility(content: View, arrowButton: ImageButton) {
-        val isVisible = content.visibility == View.VISIBLE
-
-        if (isVisible) {
-            val animator = ObjectAnimator.ofFloat(content, "alpha", 1f, 0f)
-            animator.duration = 300
-            animator.start()
-            content.visibility = View.GONE
-            arrowButton.setImageResource(R.drawable.ic_arrow_down)
-        } else {
-            content.visibility = View.VISIBLE
-            val animator = ObjectAnimator.ofFloat(content, "alpha", 0f, 1f)
-            animator.duration = 300
-            animator.start()
-            arrowButton.setImageResource(R.drawable.ic_arrow_up)
-        }
-    }
-
-    private fun showCustomToast() {
-        val inflater = layoutInflater
-        val layout = inflater.inflate(R.layout.custom_toast, null)
-
-        val params = FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-        params.setMargins(8, 0, 8, 0)
-        layout.layoutParams = params
-
-        val toast = Toast(requireContext()).apply {
-            duration = Toast.LENGTH_LONG
-            view = layout
-            setGravity(Gravity.BOTTOM or Gravity.FILL_HORIZONTAL, 0, 100)
-        }
-        toast.show()
     }
 }

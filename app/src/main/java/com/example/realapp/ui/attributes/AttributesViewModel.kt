@@ -7,13 +7,16 @@ import com.example.realapp.ui.attributes.mvi.AttributesAction
 import com.example.realapp.ui.attributes.mvi.AttributesSideEffect
 import com.example.realapp.ui.attributes.mvi.AttributesState
 import com.example.realapp.ui.attributes.mvi.AttributesViewState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.container
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import javax.inject.Inject
 
 //private val mapper:AttributesMapper,?
-class AttributesViewModel(
+@HiltViewModel
+class AttributesViewModel @Inject constructor(
     private val mapper: AttributesMapper
 ) : ViewModel(), ContainerHost<AttributesViewState, AttributesSideEffect> {
 

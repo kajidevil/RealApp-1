@@ -1,19 +1,32 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/firstCollapsingFragment">
+    app:startDestination="@id/attributesFragment">
 
     <fragment
-        android:id="@+id/firstCollapsingFragment"
+        android:id="@+id/attributesFragment"
         android:name="com.example.realapp.ui.attributes.AttributesFragment"
         android:label="First Fragment">
         <!-- Добавляем действие -->
         <action
-            android:id="@+id/action_firstCollapsingFragment_to_secondAttributesFragment"
-            app:destination="@id/secondAttributesFragment" />
+            android:id="@+id/action_attributesFragment_to_claimInfoFragment"
+            app:destination="@id/claimInfoFragment" />
     </fragment>
+
     <fragment
-        android:id="@+id/secondAttributesFragment"
+        android:id="@+id/claimInfoFragment"
         android:name="com.example.realapp.ui.claiminfo.ClaimInfoFragment"
-        android:label="Second Fragment"></fragment>
+        android:label="Second Fragment">
+        <action
+            android:id="@+id/action_claimInfoFragment_to_estimateFragment"
+            app:destination="@+id/estimateFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/estimateFragment"
+        android:name="com.example.realapp.ui.estimate.EstimateFragment"
+        android:label="Third Fragment">
+
+    </fragment>
+
 </navigation>

@@ -46,10 +46,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-    implementation(libs.orbit.core) // Основная библиотека
-    implementation(libs.orbit.viewmodel) // Для работы с ViewModel
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.core.ktx)
@@ -72,4 +68,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    //dagger hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    //orbit mvi
+    implementation(libs.orbit.core) // Основная библиотека
+    implementation(libs.orbit.viewmodel) // Для работы с ViewModel
 }

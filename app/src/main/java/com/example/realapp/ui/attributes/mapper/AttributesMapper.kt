@@ -2,8 +2,11 @@ package com.example.realapp.ui.attributes.mapper
 
 import com.example.realapp.ui.attributes.mvi.AttributesState
 import com.example.realapp.ui.attributes.mvi.AttributesViewState
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class AttributesMapper constructor() {
+//@Singleton (если маппер для всего приложения)
+class AttributesMapper @Inject constructor() {
     fun stateToViewState(state: AttributesState): AttributesViewState {
         return AttributesViewState(
             name = state.name,

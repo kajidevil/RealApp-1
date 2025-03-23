@@ -46,6 +46,7 @@
 
     <string name="catergory_water_exp_text">Category of water indicates contamination level. Class of water depends on wet surface area and material properties. See ANSI/IICRC S500 for details. </string>
 
+    <string name="scoping_notes">Scoping notes (Many or none can be selected. Notes streamline the process for fast and accurate estimates)</string>
 
 
     <string name="customer_policyholder">CUSTOMER (POLICYHOLDER) <font color="#FF0000">*</font></string>
@@ -67,14 +68,44 @@
     <string name="download_file">Download File </string>
 
     <string name="next">NEXT </string>
+    <string name="done">DONE </string>
+
+
 
     <string name="sow_doc_attention">We will use the latest SOW-document created in the DocuSketch app. Please pay attention if it is incorrect, we may charge an additional fee. </string>
 
     <string name="toasttext">Fill in all required (<font color="#FF0000">*</font>) fields </string>
 
+    <string name="toasttext2">Failed to obtain location! (<font color="#FF0000">*</font>) fields </string>
+
     <string name="claim_info"> CLAIM INFO </string>
 
+    <string name="estimate"> ESTIMATE # 1 </string>
+    <string name="notes"> NOTES </string>
+
+    <string name="enter_your_notes_here"> Enter you notes here </string>
+
+    <string name="symbol2000"> 2000 symbols left </string>
+
+    <string name="estimte_type">ESTIMATE TYPE <font color="#FF0000">*</font></string>
+
     <string name="by_changing_the_address">By changing the address it will be changed for the whole tour. </string>
+
+    <string name="emergency_mitigation">Emergency/Mitigation </string>
+    <string name="reconstruction_general">Reconstruction/General/Other </string>
+    <string name="contents">Contents </string>
+    <string name="water_mitigation">Water mitigation</string>
+    <string name="temporary_board">Temporary board up</string>
+    <string name="temporary_patch">Temporary patch</string>
+    <string name="temporary_shoring">Temporary shoring</string>
+    <string name="roof_tarp">Roof tarp</string>
+    <string name="demolition">Demolition</string>
+    <string name="hazardous_clean">Hazardous clean up</string>
+    <string name="mold_remediation">Mold remediation</string>
+    <string name="Asbestos_abatement">Asbestos_abatement</string>
+
+
+
 
 
 

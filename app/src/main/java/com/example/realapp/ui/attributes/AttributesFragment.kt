@@ -8,20 +8,24 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.realapp.R
 import com.example.realapp.databinding.AttributesBinding
-import com.example.realapp.ui.attributes.mapper.AttributesMapper
 import com.example.realapp.ui.attributes.mvi.AttributesAction
 import com.example.realapp.ui.attributes.mvi.AttributesSideEffect
 import com.example.realapp.ui.attributes.mvi.AttributesViewState
+import dagger.hilt.android.AndroidEntryPoint
 import org.orbitmvi.orbit.viewmodel.observe
 
+@AndroidEntryPoint
 class AttributesFragment : Fragment() {
 
     private var _binding: AttributesBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: AttributesViewModel
+
+    // Теперь ViewModel создаётся через Hilt
+    private val viewModel: AttributesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,8 +37,6 @@ class AttributesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = AttributesViewModel(AttributesMapper())//??
 
         viewModel.observe(
             lifecycleOwner = viewLifecycleOwner,
@@ -59,7 +61,7 @@ class AttributesFragment : Fragment() {
         when (effect) {
             is
             AttributesSideEffect.NavigateNext ->
-                findNavController().navigate(R.id.action_firstCollapsingFragment_to_secondAttributesFragment)
+                findNavController().navigate(R.id.action_attributesFragment_to_claimInfoFragment)
 
             AttributesSideEffect.ShowIncompleteFormToast ->
                 showCustomToast("Заполните все обязательные поля!")
