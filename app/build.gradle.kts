@@ -2,7 +2,11 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt.android) // Подключаем Hilt
+    id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
+
 
 android {
     namespace = "com.example.realapp"
@@ -42,7 +46,8 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -54,6 +59,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -62,4 +68,11 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    //dagger hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    //orbit mvi
+    implementation(libs.orbit.core) // Основная библиотека
+    implementation(libs.orbit.viewmodel) // Для работы с ViewModel
 }
